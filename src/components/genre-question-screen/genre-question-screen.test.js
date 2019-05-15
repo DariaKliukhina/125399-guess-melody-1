@@ -31,10 +31,24 @@ const mock = {
 
 it(`GenreQuestionScreen is rendered correctly`, () => {
   const {question} = mock;
-  const tree = renderer.create(<GenreQuestionScreen
-    onAnswer={jest.fn()}
-    question={question}
-  />).toJSON();
 
+  function createNodeMock(element) {
+    if (element.type === `audio`) {
+      return {
+        src: ``,
+        oncanplaythrough: () => {},
+        onplay: () => {},
+        onpause: () => {},
+        ontimeupdate: () => {},
+        play: () => {},
+        pause: () => {}
+      };
+    }
+    return null;
+  }
+
+  const tree = renderer
+    .create(<GenreQuestionScreen onAnswer={jest.fn()} question={question} />, {createNodeMock})
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });

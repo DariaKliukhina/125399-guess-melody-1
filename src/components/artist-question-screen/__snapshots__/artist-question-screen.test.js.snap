@@ -12,11 +12,21 @@ exports[`ArtistQuestionScreen is rendered correctly 1`] = `
   <div
     className="game__track"
   >
-    <button
-      className="track__button track__button--play"
-      type="button"
-    />
-    <audio />
+    <div
+      className="game__track"
+    >
+      <button
+        className="track__button track__button--play"
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      />
+      <div
+        className="track__status"
+      >
+        <audio />
+      </div>
+    </div>
   </div>
   <form
     className="game__artist"
@@ -27,14 +37,14 @@ exports[`ArtistQuestionScreen is rendered correctly 1`] = `
     >
       <input
         className="artist__input visually-hidden"
-        id="answer-0"
+        id="artist-0"
         name="answer"
         type="radio"
-        value="answer-0"
+        value="artist-0"
       />
       <label
         className="artist__name"
-        htmlFor="answer-1"
+        htmlFor="artist-0"
       >
         <img
           alt="John Snow"
@@ -49,14 +59,14 @@ exports[`ArtistQuestionScreen is rendered correctly 1`] = `
     >
       <input
         className="artist__input visually-hidden"
-        id="answer-1"
+        id="artist-1"
         name="answer"
         type="radio"
-        value="answer-1"
+        value="artist-1"
       />
       <label
         className="artist__name"
-        htmlFor="answer-1"
+        htmlFor="artist-1"
       >
         <img
           alt="Jack Daniels"
@@ -71,14 +81,14 @@ exports[`ArtistQuestionScreen is rendered correctly 1`] = `
     >
       <input
         className="artist__input visually-hidden"
-        id="answer-2"
+        id="artist-2"
         name="answer"
         type="radio"
-        value="answer-2"
+        value="artist-2"
       />
       <label
         className="artist__name"
-        htmlFor="answer-1"
+        htmlFor="artist-2"
       >
         <img
           alt="Jim Beam"

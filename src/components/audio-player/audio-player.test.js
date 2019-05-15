@@ -13,9 +13,20 @@ describe(`Track component`, () => {
   it(`renders correctly`, () => {
     const {src, clickHandler, isPlaying} = mock;
 
+    function createNodeMock() {
+      return {
+        src: ``,
+        oncanplaythrough: () => {},
+        onplay: () => {},
+        onpause: () => {},
+        ontimeupdate: () => {},
+        play: () => {},
+        pause: () => {}
+      };
+    }
+
     const tree = renderer.create(
-        <AudioPlayer src={src} onPlayButtonClick={clickHandler} isPlaying={isPlaying} />
-    ).toJSON();
+        <AudioPlayer src={src} onPlayButtonClick={clickHandler} isPlaying={isPlaying} />, {createNodeMock}).toJSON();
 
     expect(tree).toMatchSnapshot();
   });
