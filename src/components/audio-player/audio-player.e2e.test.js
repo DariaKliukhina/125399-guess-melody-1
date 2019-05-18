@@ -5,28 +5,50 @@ import AudioPlayer from './audio-player';
 
 Enzyme.configure({adapter: new Adapter()});
 
-const src = `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`;
+const mock = {
+  src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+  isPlaying: false
+};
 
-describe(`<AudioPlayer/>`, () => {
-  it(`shows play icon when it's not playing`, () => {
-    const audioPlayer = mount(<AudioPlayer
-      src={src}
-      onPlayButtonClick={jest.fn()}
-      isPlaying={false}
-    />);
-    const playButton = audioPlayer.find(`button.track__button`);
+it(`AudioPlayer change state then click on the button`, () => {
+  const {src, isPlaying} = mock;
+  const audioPlayer = mount(<AudioPlayer
+    src={src}
+    isPlaying={isPlaying}
+    onPlayButtonClick={() => {}}
+  />);
 
-    expect(playButton.hasClass(`track__button--play`)).toEqual(true);
-  });
+  window.HTMLMediaElement.prototype.load = () => {};
+  window.HTMLMediaElement.prototype.play = () => {};
+  window.HTMLMediaElement.prototype.pause = () => {};
 
-  it(`shows pause icon when it's playing`, () => {
-    const audioPlayer = mount(<AudioPlayer
-      src={src}
-      onPlayButtonClick={jest.fn()}
-      isPlaying={true}
-    />);
-    const playButton = audioPlayer.find(`button.track__button`);
+  audioPlayer.setState({isLoading: false});
+  audioPlayer.update();
+  const playButton = audioPlayer.find(`.track__button`);
+  playButton.simulate(`click`, {preventDefault() {}});
+  audioPlayer.update();
+  expect(audioPlayer.state(`isPlaying`)).toEqual(true);
+  playButton.simulate(`click`, {preventDefault() {}});
+  audioPlayer.update();
+  expect(audioPlayer.state(`isPlaying`)).toEqual(false);
+});
 
-    expect(playButton.hasClass(`track__button--pause`)).toEqual(true);
-  });
+it(`AudioPlayer invoke callback then click on the button`, () => {
+  const {src, isPlaying} = mock;
+  const clickHandler = jest.fn();
+  const audioPlayer = mount(<AudioPlayer
+    src={src}
+    isPlaying={isPlaying}
+    onPlayButtonClick={clickHandler}
+  />);
+
+  window.HTMLMediaElement.prototype.load = () => {};
+  window.HTMLMediaElement.prototype.play = () => {};
+  window.HTMLMediaElement.prototype.pause = () => {};
+
+  audioPlayer.setState({isLoading: false});
+  audioPlayer.update();
+  const playButton = audioPlayer.find(`.track__button`);
+  playButton.simulate(`click`, {preventDefault() {}});
+  expect(clickHandler).toHaveBeenCalledTimes(1);
 });
