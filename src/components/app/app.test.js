@@ -1,6 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import App from './app';
+
+import {App} from './app.jsx';
 
 const mock = {
   questions: [
@@ -9,7 +10,19 @@ const mock = {
       genre: `rock`,
       answers: [
         {
-          src: `path`,
+          src: `test.mp3`,
+          genre: `rock`,
+        },
+        {
+          src: `test.mp3`,
+          genre: `blues`,
+        },
+        {
+          src: `test.mp3`,
+          genre: `jazz`,
+        },
+        {
+          src: `test.mp3`,
           genre: `rock`,
         },
       ],
@@ -17,27 +30,77 @@ const mock = {
     {
       type: `artist`,
       song: {
-        artist: `One`,
-        src: ``,
+        artist: `Jim Beam`,
+        src: `path.mp3`,
       },
       answers: [
         {
-          picture: ``,
-          artist: `One`,
+          picture: `path.jpg`,
+          artist: `John Snow`,
+        },
+        {
+          picture: `path.jpg`,
+          artist: `Jack Daniels`,
+        },
+        {
+          picture: `path.jpg`,
+          artist: `Jim Beam`,
         },
       ],
     }
   ],
 };
 
-it(`App renders correctly`, () => {
+
+it(`App correctly renders first screen`, () => {
   const {questions} = mock;
-  const tree = renderer
-    .create(<App
-      errorCount={0}
-      gameTime={0}
-      questions={questions}
-    />)
-  .toJSON();
+  const tree = renderer.create(<App
+    mistakes={0}
+    maxMistakes={Infinity}
+    gameTime={100}
+    questions={questions}
+    step={-1}
+    onUserAnswer={jest.fn()}
+    onWelcomeScreenClick={jest.fn()}
+  />).toJSON();
+
+  expect(tree).toMatchSnapshot();
+});
+
+it(`App correctly renders genre question screen`, () => {
+  const {questions} = mock;
+  const tree = renderer.create(<App
+    mistakes={0}
+    maxMistakes={Infinity}
+    gameTime={100}
+    questions={questions}
+    step={1}
+    onUserAnswer={jest.fn()}
+    onWelcomeScreenClick={jest.fn()}
+  />, {
+    createNodeMock: () => {
+      return {};
+    }
+  }).toJSON();
+
+  expect(tree).toMatchSnapshot();
+});
+
+it(`App correctly renders artist question screen`, () => {
+  const {questions} = mock;
+  const tree = renderer.create(<App
+    mistakes={0}
+    maxMistakes={Infinity}
+    gameTime={100}
+    questions={questions}
+    step={2}
+    onUserAnswer={jest.fn()}
+    onWelcomeScreenClick={jest.fn()}
+  />, {
+    createNodeMock: () => {
+      return {};
+    }
+  }).toJSON();
+
   expect(tree).toMatchSnapshot();
 });
