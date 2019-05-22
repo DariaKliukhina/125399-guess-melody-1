@@ -90,9 +90,9 @@ App.propTypes = {
   onWelcomeScreenClick: PropTypes.func.isRequired,
   gameTime: PropTypes.number.isRequired,
   questions: PropTypes.array.isRequired,
-  mistakes: PropTypes.number.isRequired,
+  mistakes: PropTypes.number,
   step: PropTypes.number.isRequired,
-  onUserAnswer: PropTypes.func.isRequired
+  onUserAnswer: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
